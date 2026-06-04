@@ -11,6 +11,7 @@ def main():
     add_parser = subparsers.add_parser("add-machine", help="添加设备")
     add_parser.add_argument("machine_id", help="设备ID")
     add_parser.add_argument("--type", required=True, dest="machine_type",
+                           choices=Storage.VALID_MACHINE_TYPES,
                            help=f"设备类型: {', '.join(Storage.VALID_MACHINE_TYPES)}")
     add_parser.add_argument("--price-per-use", type=int, required=True, help="每次费用（整数分）")
 
@@ -82,7 +83,10 @@ def main():
                 print(f"设备 {mid} ({data['type']}):")
                 print(f"  故障次数: {data['fault_count']} 次")
                 print(f"  总使用次数: {data['total_uses']} 次")
-                print(f"  故障率: {data['fault_rate']:.2%}")
+                if data["fault_rate"] is None:
+                    print(f"  故障率: 暂无使用记录")
+                else:
+                    print(f"  故障率: {data['fault_rate']:.2%}")
             print("-" * 70)
 
     except ValueError as e:

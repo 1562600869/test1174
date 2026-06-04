@@ -70,7 +70,7 @@ class LaundryManager:
             if total_uses > 0:
                 rate = fault_count / total_uses
             else:
-                rate = 0.0
+                rate = None
             report[m["id"]] = {
                 "type": m["type"],
                 "fault_count": fault_count,
